@@ -37,7 +37,7 @@ class node:
         inth=int(self.hashid,16)
         self.hashvector=[0]*vectorlength
         self.neighbors=[[-1,'',8888]]*max_neighbors   #list of 2 element arrays of HASHID, IP ADDRESS, AND THEIR PORT
-        
+
         r=0
         while inth>0:
             self.hashvector[r]=int(inth%elementlength)
@@ -48,10 +48,10 @@ class node:
         #listening socket
         self.sockets[0]=self.create_socket('',self.listeningport)
         #self.create_socket('',listeningport,0)
-        
 
-        
-        
+
+
+
 
     def create_socket(self, HOST, PORT):    #RETURNS SOCKET OBJECT
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -65,7 +65,7 @@ class node:
         except socket.error , msg:
             print 'Bind failed. Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
 
- 
+
 
     def client_thread(self, connection):  #Whatever this node does as a SERVER
         #while True:
@@ -78,7 +78,7 @@ class node:
         print "here"
 
     def message(self, host, port, message): #socket must be set up
-        
+
         remote_ip=socket.gethostbyname(host)
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -87,14 +87,14 @@ class node:
         s.sendall(message)
         print "MESSAGE SENT \n"
         reply = s.recv(4096)
-             
+
         print "SERVER REPLY:"+"\n"+str(reply)
 
     def serve(self):
         j=0
         while active:
             j=j+1
-            
+
             connection,address=self.sockets[0].accept()
             print j
             k=threading.Thread(target=self.client_thread,args=(connection,))
@@ -102,40 +102,40 @@ class node:
             k.start()
             #self.client_thread(connection)
             print "Connected with "+str(address[0])+":"+str(address[1])
-            
+
     def chat(self):
         for x in self.neighbors:
             m="my name is: "+str(self.hashid)
             h=x[1]
             p=x[2]
             self.message(h,p,m)
-        
+
 
     def online(self):
-        
+
         #SETUP A REPLYING SERVER
         self.sockets[0].listen(max_neighbors)
         print 'Socket now listening'
         active=True
-        
+
         g=threading.Thread(target=self.serve)
         g.daemon=True
         g.start()
 
 
-        
+
         r=threading.Thread(target=self.chat)
-                           
+
         r.daemon=True
         r.start()
 
 
-                
-            
-            
-                
 
-            
+
+
+
+
+
 def nodedistance(nodeavector,nodebvector):
     d=0
     if len(nodeavector)==len(nodebvector):
