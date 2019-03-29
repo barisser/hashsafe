@@ -27,6 +27,8 @@ def generate_private_public(text):  #text adds randomness only, not deterministi
     priv=privateKeyToWif(secret_exponent)
     return priv,pub
 """
+
+
 class node:
 
     def __init__(self, listeningport):
