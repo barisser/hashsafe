@@ -34,9 +34,9 @@ class node:
         self.listeningport=listeningport
         self.timestamp=timestamp
         self.hashid=hashlib.sha256(str(timestamp+random.random()*1000000)).hexdigest()
-        inth=int(self.hashid,16)
+        inth=int(self.hashid, 16)
         self.hashvector=[0]*vectorlength
-        self.neighbors=[[-1,'',8888]]*max_neighbors   #list of 2 element arrays of HASHID, IP ADDRESS, AND THEIR PORT
+        self.neighbors=[[-1, '', 8888]]*max_neighbors   #list of 2 element arrays of HASHID, IP ADDRESS, AND THEIR PORT
         
         r=0
         while inth>0:
@@ -46,7 +46,7 @@ class node:
         self.sockets=[0]*(max_neighbors+1) #first socket should be SERVER socket
 
         #listening socket
-        self.sockets[0]=self.create_socket('',self.listeningport)
+        self.sockets[0]=self.create_socket('', self.listeningport)
         #self.create_socket('',listeningport,0)
         
 
@@ -95,9 +95,9 @@ class node:
         while active:
             j=j+1
             
-            connection,address=self.sockets[0].accept()
+            connection, address=self.sockets[0].accept()
             print j
-            k=threading.Thread(target=self.client_thread,args=(connection,))
+            k=threading.Thread(target=self.client_thread, args=(connection,))
             k.daemon=True
             k.start()
             #self.client_thread(connection)
@@ -108,7 +108,7 @@ class node:
             m="my name is: "+str(self.hashid)
             h=x[1]
             p=x[2]
-            self.message(h,p,m)
+            self.message(h, p, m)
         
 
     def online(self):
@@ -136,7 +136,7 @@ class node:
                 
 
             
-def nodedistance(nodeavector,nodebvector):
+def nodedistance(nodeavector, nodebvector):
     d=0
     if len(nodeavector)==len(nodebvector):
         a=0
@@ -145,7 +145,7 @@ def nodedistance(nodeavector,nodebvector):
 
             a=a+1
         #print d
-        d=math.pow(float(d),0.5)
+        d=math.pow(float(d), 0.5)
         return d
     else:
         return -1
